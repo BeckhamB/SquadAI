@@ -55,7 +55,6 @@ public class PingWheelScript : MonoBehaviour
         foreach (RaycastResult result in clickResults)
         {
             GameObject uiElement = result.gameObject;
-            //Debug.Log(result.gameObject.transform.name);
             if(result.gameObject.transform.name == "FollowSoloPing")
             {
                 playerController.MovePinged(playerController.CastRay());
@@ -64,33 +63,27 @@ public class PingWheelScript : MonoBehaviour
             if (result.gameObject.transform.name == "FollowGroupPing")
             {
                 playerController.FollowPingGroup(playerController.CastRay());
-                Debug.Log("2");
             }
             if (result.gameObject.transform.name == "NeedHelpPing")
             {
                 playerController.NeedHelp(playerController.CastRay());
-                Debug.Log("3");
             }
             if (result.gameObject.transform.name == "FallBackSoloPing")
             {
                 playerController.FallBackSolo(playerController.CastRay());
-                Debug.Log("4");
             }
             if (result.gameObject.transform.name == "FallBackGroupPing")
             {
                 playerController.FallBackGroup(playerController.CastRay());
-                Debug.Log("5");
             }
             if (result.gameObject.transform.name == "CancelPing")
             {
                 playerController.Cancel() ;
-                Debug.Log("6");
                 
             }
             if (result.gameObject.transform.name == "RegroupPing")
             {
                 playerController.Regroup();
-                Debug.Log("7");
             }
         }
     }

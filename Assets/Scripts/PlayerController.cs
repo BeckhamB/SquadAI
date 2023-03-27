@@ -51,7 +51,6 @@ public class PlayerController : MonoBehaviour
     public GameObject SquadMemberLowPromptObj;
     public GameObject SquadMemberFarAwayObj;
 
-
     private void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -123,7 +122,7 @@ public class PlayerController : MonoBehaviour
         }
         if (inputManager.PlayerReturn())
         {
-            followScript.setState(AIState.Follow);
+            followScript.SetState(AIState.Follow);
         }
         if(inputManager.EnterPressed())
         {
@@ -144,7 +143,7 @@ public class PlayerController : MonoBehaviour
         closestSquad = FindClosestSquadMember();
         closestSquad.GetComponent<FollowPlayer>().pingedTarget = coords;
         closestSquadState = closestSquad.GetComponent<FollowPlayer>().currentState;
-        closestSquad.GetComponent<FollowPlayer>().setState(AIState.Pinged);
+        closestSquad.GetComponent<FollowPlayer>().SetState(AIState.Pinged);
 
         SpawnPing(coords);
     }
@@ -205,12 +204,11 @@ public class PlayerController : MonoBehaviour
         squadMembers = GameObject.FindGameObjectsWithTag("Squad");
         foreach (GameObject gamObj in squadMembers)
         {
-
+            gamObj.GetComponent<FollowPlayer>().nav.stoppingDistance = 10f;
             gamObj.GetComponent<FollowPlayer>().pingedTarget = coords;
-            gamObj.GetComponent<FollowPlayer>().setState(AIState.Pinged);
+            gamObj.GetComponent<FollowPlayer>().SetState(AIState.Pinged);
 
-
-        }
+        }   
         SpawnPing(coords);
     }
 
@@ -254,7 +252,7 @@ public class PlayerController : MonoBehaviour
             {
 
                 gamObj.GetComponent<FollowPlayer>().pingedTarget = closest.transform.position;
-                gamObj.GetComponent<FollowPlayer>().setState(AIState.Pinged);
+                gamObj.GetComponent<FollowPlayer>().SetState(AIState.Pinged);
 
                 SpawnPing(coords);
             }
@@ -268,7 +266,7 @@ public class PlayerController : MonoBehaviour
         squadMembers = GameObject.FindGameObjectsWithTag("Squad");
         foreach (GameObject gamObj in squadMembers)
         {
-            gamObj.GetComponent<FollowPlayer>().setState(AIState.Follow);
+            gamObj.GetComponent<FollowPlayer>().SetState(AIState.Follow);
         }
     }
     public void FallBackSolo(Vector3 coords)
@@ -278,7 +276,7 @@ public class PlayerController : MonoBehaviour
         Vector3 direction = closestSquad.transform.position - coords;
         direction = closestSquad.transform.position + (direction * 2f);
         closestSquad.GetComponent<FollowPlayer>().pingedTarget = direction;
-        closestSquad.GetComponent<FollowPlayer>().setState(AIState.Pinged);
+        closestSquad.GetComponent<FollowPlayer>().SetState(AIState.Pinged);
 
         SpawnPing(coords);
     }
@@ -293,7 +291,7 @@ public class PlayerController : MonoBehaviour
             Vector3 direction = gamObj.transform.position - coords;
             direction = closestSquad.transform.position + (direction * 2f);
             gamObj.GetComponent<FollowPlayer>().pingedTarget = direction;
-            gamObj.GetComponent<FollowPlayer>().setState(AIState.Pinged);
+            gamObj.GetComponent<FollowPlayer>().SetState(AIState.Pinged);
         }
 
         SpawnPing(coords);
@@ -389,7 +387,7 @@ public class PlayerController : MonoBehaviour
                 float curDistance = diff.sqrMagnitude;
                 if (curDistance >= 6000)
                 {
-                    gamObj.GetComponent<FollowPlayer>().setState(AIState.Follow);
+                    gamObj.GetComponent<FollowPlayer>().SetState(AIState.Follow);
                 }
             }
             SquadMemberFarAwayObj.SetActive(false);

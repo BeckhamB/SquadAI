@@ -29,6 +29,8 @@ public class PlayerValues : MonoBehaviour
     {
         if (CurrentSquadHealth() <= 15 && !healthPromptShown)
         {
+            SquadMemberLowPromptObj.SetActive(false);
+            SquadMemberFarAwayPromptObj.SetActive(false);
             SquadLowPromptObj.SetActive(true);
             StartCoroutine(PromptTimerSquadLow());
             
@@ -62,7 +64,7 @@ public class PlayerValues : MonoBehaviour
             {
                 Vector3 diff = gamObj.transform.position - transform.position;
                 float curDistance = diff.sqrMagnitude;
-                if(curDistance >= 6000)
+                if(curDistance >= 6000 && !SquadMemberLowPromptObj.activeSelf && !SquadLowPromptObj.activeSelf)
                 {
                     SquadMemberFarAway();
                 }
@@ -71,8 +73,11 @@ public class PlayerValues : MonoBehaviour
     }
     void SquadMemberLow(GameObject obj)
     {
-        SquadMemberLowPromptObj.SetActive(true);
-        StartCoroutine(PromptTimerMemberLow());
+        if(!SquadLowPromptObj.activeSelf)
+        {
+            SquadMemberLowPromptObj.SetActive(true);
+            StartCoroutine(PromptTimerMemberLow());
+        }
     }
     void SquadMemberFarAway()
     {

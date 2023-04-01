@@ -20,6 +20,8 @@ public class FollowPlayer : MonoBehaviour
     private Vector3 enemyTransform;
     private Vector3 enemyPosition;
     private FollowPlayer followScript;
+    private PlayerController playerController;
+    private Animator anim;
 
     public HealthBar healthBar;
     public int health;
@@ -30,10 +32,12 @@ public class FollowPlayer : MonoBehaviour
     public AIState currentState;
     private void Start()
     {
+        //playerController =  GetComponent<PlayerController>
         nav = GetComponent<NavMeshAgent>();
         rgb = GetComponent<Rigidbody>();
+        anim = GetComponentInChildren<Animator>();
 
-        currentState = AIState.Idle;
+        currentState = AIState.Follow;
         healthBar.SetMaxHealth(health);
         healthBar.SetFillColour(Color.green);
 
@@ -46,12 +50,16 @@ public class FollowPlayer : MonoBehaviour
             default:
             case AIState.Idle:
                 transform.rotation = player.transform.rotation;
+                //anim.SetBool("IsMoving", false);
                 break;
             case AIState.Follow:
-                nav.transform.forward = player.transform.forward;
+                anim.SetBool("IsMoving", true);
+                //nav.transform.forward = player.transform.forward;
+                transform.rotation = Camera.main.transform.rotation;
                 nav.SetDestination(playerTarget.position);
                 break;
             case AIState.Pinged:
+                anim.SetBool("IsMoving", true);
                 pingedTarget = new Vector3(pingedTarget.x, 0, pingedTarget.z);
                 nav.SetDestination(pingedTarget);
                 break;
@@ -71,10 +79,21 @@ public class FollowPlayer : MonoBehaviour
 
                 break;
         }
-
-        if(rgb.velocity == Vector3.zero && currentState != AIState.Follow)
+        
+        if(nav.velocity == Vector3.zero)
         {
-            SetState(AIState.Idle);
+            anim.SetBool("IsMoving", false);
+            //SetState(AIState.Idle);
+        }
+        Attack();
+
+        if(rgb.velocity != Vector3.zero)
+        {
+            
+        }
+        else
+        {
+            
         }
     }
 

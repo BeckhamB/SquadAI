@@ -128,6 +128,10 @@ public class PlayerController : MonoBehaviour
         {
             CheckActivePrompt();
         }
+        if(inputManager.ExitPressed())
+        {
+            Application.Quit();
+        }
     }
 
     private void SpawnPing(Vector3 point)
@@ -151,7 +155,6 @@ public class PlayerController : MonoBehaviour
     {
         Cancel();
     }
-
      void wheelEnabled()
     {
         PingWheelScript.wheelEnabledStatic();

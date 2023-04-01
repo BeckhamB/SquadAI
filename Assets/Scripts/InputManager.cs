@@ -82,4 +82,9 @@ public class InputManager : MonoBehaviour
     {
         return playerControls.Player.Enter.triggered;
     }
+
+    public bool ExitPressed()
+    {
+        return playerControls.Player.Exit.triggered;
+    }
 }

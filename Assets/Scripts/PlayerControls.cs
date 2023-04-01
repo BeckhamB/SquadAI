@@ -107,6 +107,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Exit"",
+                    ""type"": ""Button"",
+                    ""id"": ""48258dda-895e-453d-b3e7-c7b6567d1304"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -252,6 +261,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""Enter"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f8787061-1814-4dba-817e-b0d3c2b88e3b"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Exit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -341,6 +361,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Player_PingWheel = m_Player.FindAction("PingWheel", throwIfNotFound: true);
         m_Player_Click = m_Player.FindAction("Click", throwIfNotFound: true);
         m_Player_Enter = m_Player.FindAction("Enter", throwIfNotFound: true);
+        m_Player_Exit = m_Player.FindAction("Exit", throwIfNotFound: true);
         // Aerial
         m_Aerial = asset.FindActionMap("Aerial", throwIfNotFound: true);
         m_Aerial_Newaction = m_Aerial.FindAction("New action", throwIfNotFound: true);
@@ -412,6 +433,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_PingWheel;
     private readonly InputAction m_Player_Click;
     private readonly InputAction m_Player_Enter;
+    private readonly InputAction m_Player_Exit;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -425,6 +447,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @PingWheel => m_Wrapper.m_Player_PingWheel;
         public InputAction @Click => m_Wrapper.m_Player_Click;
         public InputAction @Enter => m_Wrapper.m_Player_Enter;
+        public InputAction @Exit => m_Wrapper.m_Player_Exit;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -461,6 +484,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Enter.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEnter;
                 @Enter.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEnter;
                 @Enter.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEnter;
+                @Exit.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnExit;
+                @Exit.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnExit;
+                @Exit.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnExit;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -492,6 +518,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Enter.started += instance.OnEnter;
                 @Enter.performed += instance.OnEnter;
                 @Enter.canceled += instance.OnEnter;
+                @Exit.started += instance.OnExit;
+                @Exit.performed += instance.OnExit;
+                @Exit.canceled += instance.OnExit;
             }
         }
     }
@@ -540,6 +569,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnPingWheel(InputAction.CallbackContext context);
         void OnClick(InputAction.CallbackContext context);
         void OnEnter(InputAction.CallbackContext context);
+        void OnExit(InputAction.CallbackContext context);
     }
     public interface IAerialActions
     {

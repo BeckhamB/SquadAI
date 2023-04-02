@@ -9,7 +9,7 @@ Tileable Bricks Wall
 Toony Tiny People
 
 Controls:
-Mouse - Look
+Mouse - Look - Sensitivity may be high!
 WASD - Move
 P - Swap Camera
 X - Open Ping Wheel
